@@ -57,6 +57,7 @@ impl<'a> ApiClient<'a> {
                 }
             }
             Err(e) => {
+                println!("{}", e.to_string());
                 return Err(e.status().unwrap());
             }
         }
@@ -66,7 +67,10 @@ impl<'a> ApiClient<'a> {
 
         match content {
             Ok(response) => Ok(response),
-            Err(e) => Err(e.status().unwrap())
+            Err(e) => {
+                println!("{}", e.to_string());
+                Err(e.status().unwrap())
+            } 
         }
     }
 }
