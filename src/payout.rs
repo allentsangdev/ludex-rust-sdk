@@ -36,7 +36,7 @@ impl<'a> Payout<'a> {
     }
 
     async fn get_payouts(&self) -> Result<Vec<PayoutResponse>, StatusCode> {
-        let response : Result<Vec<PayoutResponse>, StatusCode> = self.api_client.issue_get_request("/payout").await;
+        let response : Result<Vec<PayoutResponse>, StatusCode> = self.api_client.issue_get_request(self.base_path).await;
 
         match response {
             Ok(r) => Ok(r),
@@ -48,7 +48,7 @@ impl<'a> Payout<'a> {
     }
 
     async fn get_payout(&self, id: i32) -> Result<PayoutResponse, StatusCode> {
-        let full_url: String = format!("{}{}", &self.base_path, id);
+        let full_url: String = format!("{}{}", self.base_path, id);
 
         let response : Result<PayoutResponse, StatusCode> = self.api_client.issue_get_request(&full_url).await;
 
