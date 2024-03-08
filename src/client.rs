@@ -15,6 +15,12 @@ pub struct ClientResponse {
     //   wallets: ClientWallet[];
 }
 
+#[derive(serde::Deserialize, Clone)]
+pub struct OpenChallengeCountResponse {
+    count: i32,
+    limit: i32
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct CreateClientRequest {
     name: String
@@ -83,6 +89,27 @@ impl<'a> Client<'a> {
             }
         }
     }
+
+    pub async fn get_open_challenge_count(&self, client_id: i32) -> Result<OpenChallengeCountResponse, StatusCode> {
+        let full_path: String = format!("{}{}{}", self.base_path, client_id, "open-challenge-count");
+        
+        let response: Result<OpenChallengeCountResponse, StatusCode> =
+            self.api_client.issue_get_request(&full_path).await;
+
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => {
+                println!("{}", e.to_string());
+                Err(e)
+            }
+        }
+    }
+
+    
+
+
+
+
 
 
 }
