@@ -1,10 +1,11 @@
+#![allow(dead_code)]
 use crate::api_client::ApiClient;
 use reqwest::{Body, StatusCode};
 use serde::{Deserialize, Serialize};
 
 
 #[derive(serde::Deserialize, Clone)]
-struct ClientResponse {
+pub struct ClientResponse {
     /** client id */
     id: i32,
     /** name of client */
@@ -16,7 +17,7 @@ struct ClientResponse {
 }
 
 #[derive(Serialize, Deserialize)]
-struct CreateClientRequest {
+pub struct CreateClientRequest {
     name: String
 }
 

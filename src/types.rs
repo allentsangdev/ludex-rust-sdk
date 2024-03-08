@@ -1,9 +1,11 @@
+#![allow(dead_code)]
+
 pub enum Chain {
     Solana,
     Avalanche,
 }
 
-pub impl Chain {
+ impl Chain {
     fn as_str(&self) -> &'static str {
         match self {
             Chain::Solana => "SOLANA",
@@ -18,7 +20,7 @@ pub enum PayoutType {
     NFT,
 }
 
-pub impl PayoutType {
+ impl PayoutType {
     fn as_str(&self) -> &'static str {
         match self {
             PayoutType::NATIVE => "NATIVE",
@@ -26,4 +28,18 @@ pub impl PayoutType {
             PayoutType::NFT => "NFT",
         }
     }
+}
+
+// Request response typess
+#[derive(serde::Deserialize)]
+#[derive(Debug)]
+pub struct PayoutResponse { 
+    id: i32,
+    chain: String
+}
+
+#[derive(serde::Deserialize)]
+#[derive(Debug)]
+pub struct PayoutListResponse {
+    pub payouts: Vec<PayoutResponse>,
 }

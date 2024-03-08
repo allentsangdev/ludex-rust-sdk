@@ -13,7 +13,7 @@
 
 use reqwest::{
     header::{self, HeaderMap, HeaderValue},
-    Body, Client, Error, RequestBuilder, Response, StatusCode,
+    Body, Client, Error, Response, StatusCode,
 };
 use serde::de::DeserializeOwned;
 

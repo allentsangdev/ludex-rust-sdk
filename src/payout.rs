@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::api_client:: ApiClient;
 use reqwest::StatusCode;
 
@@ -8,7 +9,7 @@ use reqwest::StatusCode;
 
 #[derive(serde::Deserialize)]
 #[derive(Clone)]
-struct PayoutResponse {
+pub struct PayoutResponse {
     pub id: i32,
     pub chain: String,
     pub entry_fee: String,
