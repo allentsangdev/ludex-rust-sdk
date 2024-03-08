@@ -29,17 +29,3 @@ pub enum PayoutType {
         }
     }
 }
-
-// Request response typess
-#[derive(serde::Deserialize)]
-#[derive(Debug)]
-pub struct PayoutResponse { 
-    id: i32,
-    chain: String
-}
-
-#[derive(serde::Deserialize)]
-#[derive(Debug)]
-pub struct PayoutListResponse {
-    pub payouts: Vec<PayoutResponse>,
-}

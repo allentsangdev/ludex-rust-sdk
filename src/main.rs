@@ -1,7 +1,7 @@
 // Import the ApiClient
 // use api_client::ApiClient;
 use ludex_rust_sdk::api_client::ApiClient;
-use ludex_rust_sdk::types::PayoutListResponse;
+use ludex_rust_sdk::payout::PayoutListResponse;
 use reqwest::StatusCode;
 
 #[tokio::main]

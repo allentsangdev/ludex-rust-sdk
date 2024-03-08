@@ -18,6 +18,7 @@ pub struct PayoutResponse {
     pub payout_type: String
 }
 
+#[derive(serde::Deserialize)]
 pub struct PayoutListResponse {
     pub payouts: Vec<PayoutResponse>,
 }

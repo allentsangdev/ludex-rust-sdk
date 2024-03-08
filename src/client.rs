@@ -3,7 +3,6 @@ use crate::api_client::ApiClient;
 use reqwest::{Body, StatusCode};
 use serde::{Deserialize, Serialize};
 
-
 #[derive(serde::Deserialize, Clone)]
 pub struct ClientResponse {
     /** client id */
