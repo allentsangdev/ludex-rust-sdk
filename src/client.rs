@@ -21,6 +21,11 @@ pub struct OpenChallengeCountResponse {
     limit: i32
 }
 
+#[derive(serde::Deserialize, Clone)]
+pub struct DeleteClientResponse {
+    id: i32
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct CreateClientRequest {
     name: String
@@ -33,6 +38,19 @@ impl CreateClientRequest {
         Body::from(json_string)
     }
 }
+#[derive(Serialize, Deserialize)]
+pub struct ClientWallet {
+    chain: String,
+    address: String
+}
+
+impl ClientWallet {
+    fn to_request_body(&self) -> Body {
+        let json_string = serde_json::to_string(&self).unwrap();
+        Body::from(json_string)
+}
+}
+
 
 pub struct Client<'a> {
     api_client: ApiClient<'a>,
@@ -91,7 +109,7 @@ impl<'a> Client<'a> {
     }
 
     pub async fn get_open_challenge_count(&self, client_id: i32) -> Result<OpenChallengeCountResponse, StatusCode> {
-        let full_path: String = format!("{}{}{}", self.base_path, client_id, "open-challenge-count");
+        let full_path: String = format!("{}{}{}", self.base_path, client_id, "/open-challenge-count");
         
         let response: Result<OpenChallengeCountResponse, StatusCode> =
             self.api_client.issue_get_request(&full_path).await;
@@ -105,11 +123,35 @@ impl<'a> Client<'a> {
         }
     }
 
-    
 
+    pub async fn update_client_wallet(&self, client_id: i32, wallet: ClientWallet) -> Result<ClientResponse, StatusCode> {
+        let full_path: String = format!("{}{}{}", self.base_path, client_id, "/wallet");
+        let request_body: Body = wallet.to_request_body();
+        
+        let response: Result<ClientResponse, StatusCode> =
+            self.api_client.issue_patch_request(&full_path, request_body).await;
 
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => {
+                println!("{}", e.to_string());
+                Err(e)
+            }
+        }
+    }
 
+    pub async fn delete_client(&self, client_id: i32) -> Result<DeleteClientResponse, StatusCode> {
+        let full_path: String = format!("{}{}", self.base_path, client_id);
+        
+        let response: Result<DeleteClientResponse, StatusCode> =
+            self.api_client.issue_delete_request(&full_path).await;
 
-
-
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => {
+                println!("{}", e.to_string());
+                Err(e)
+            }
+        }
+    }
 }
