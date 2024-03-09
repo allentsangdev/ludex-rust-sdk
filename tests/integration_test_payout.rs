@@ -9,16 +9,31 @@ static LUDEX_ORG_SCOPED: Lazy<OrganizationScoped> = Lazy::new(|| {
 });
 
 #[tokio::test]
-async fn get_clients() {
+async fn get_client() {
     
     let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
-    let response = client_scoped.get_clients().await; // Await the asynchronous response
+    let response = client_scoped.get_client(1072).await; // <-- should return coinflip V2
     
     // run cargo test -- --nocapture to print during Rust tests
     match &response {
         Ok(r) => println!("{:?}",r),
         Err(e) => println!("{}", e)
     }
+
+    assert!(response.is_ok()); 
+}
+
+#[tokio::test]
+async fn get_clients() {
+    
+    let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
+    let response = client_scoped.get_clients().await; // Await the asynchronous response
+    
+    // run cargo test -- --nocapture to print during Rust tests
+    // match &response {
+    //     Ok(r) => println!("{:?}",r),
+    //     Err(e) => println!("{}", e)
+    // }
 
     assert!(response.is_ok()); 
 }

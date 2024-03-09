@@ -6,14 +6,10 @@ use serde::{Deserialize, Serialize};
 #[derive(serde::Deserialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ClientResponse {
-    /** client id */
     id: i32,
-    /** name of client */
     name: String,
-    /** Open challenge limit */
     open_challenge_limit: i32,
-    //Clients wallets (one per chain)
-    //   wallets: ClientWallet[];
+    wallets: Vec<ClientWallet>
 }
 
 #[derive(serde::Deserialize, Clone)]
@@ -39,7 +35,7 @@ impl CreateClientRequest {
         Body::from(json_string)
     }
 }
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ClientWallet {
     chain: String,
     address: String
@@ -68,7 +64,7 @@ impl<'a> Client<'a> {
     }
 
     pub async fn get_client(&self, client_id: i32) -> Result<ClientResponse, StatusCode> {
-        let full_url: String = format!("{}{}", self.base_path, client_id);
+        let full_url: String = format!("{}/{}", self.base_path, client_id);
         let response: Result<ClientResponse, StatusCode> =
             self.api_client.issue_get_request(&full_url).await;
 
