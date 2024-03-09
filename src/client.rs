@@ -12,7 +12,7 @@ pub struct ClientResponse {
     wallets: Vec<ClientWallet>
 }
 
-#[derive(serde::Deserialize, Clone)]
+#[derive(serde::Deserialize, Clone, Debug)]
 pub struct OpenChallengeCountResponse {
     count: i32,
     limit: i32
@@ -25,12 +25,12 @@ pub struct DeleteClientResponse {
 
 #[derive(Serialize, Deserialize)]
 pub struct CreateClientRequest {
-    name: String
+    pub name: String
 }
 
 impl CreateClientRequest {
     // a helper function to parse the struct to a reqwest Body type
-    fn to_request_body(&self) -> Body {
+    pub fn to_request_body(&self) -> Body {
         let json_string = serde_json::to_string(&self).unwrap();
         Body::from(json_string)
     }
@@ -106,7 +106,7 @@ impl<'a> Client<'a> {
     }
 
     pub async fn get_open_challenge_count(&self, client_id: i32) -> Result<OpenChallengeCountResponse, StatusCode> {
-        let full_path: String = format!("{}{}{}", self.base_path, client_id, "/open-challenge-count");
+        let full_path: String = format!("{}/{}{}", self.base_path, client_id, "/open-challenge-count");
         
         let response: Result<OpenChallengeCountResponse, StatusCode> =
             self.api_client.issue_get_request(&full_path).await;
