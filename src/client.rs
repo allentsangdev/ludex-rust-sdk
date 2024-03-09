@@ -37,8 +37,8 @@ impl CreateClientRequest {
 }
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ClientWallet {
-    chain: String,
-    address: String
+    pub chain: String,
+    pub address: String
 }
 
 impl ClientWallet {
@@ -122,7 +122,7 @@ impl<'a> Client<'a> {
 
 
     pub async fn update_client_wallet(&self, client_id: i32, wallet: ClientWallet) -> Result<ClientResponse, StatusCode> {
-        let full_path: String = format!("{}{}{}", self.base_path, client_id, "/wallet");
+        let full_path: String = format!("{}/{}{}", self.base_path, client_id, "/wallet");
         let request_body: Body = wallet.to_request_body();
         
         let response: Result<ClientResponse, StatusCode> =
@@ -138,7 +138,7 @@ impl<'a> Client<'a> {
     }
 
     pub async fn delete_client(&self, client_id: i32) -> Result<DeleteClientResponse, StatusCode> {
-        let full_path: String = format!("{}{}", self.base_path, client_id);
+        let full_path: String = format!("{}/{}", self.base_path, client_id);
         
         let response: Result<DeleteClientResponse, StatusCode> =
             self.api_client.issue_delete_request(&full_path).await;
