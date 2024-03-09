@@ -29,7 +29,7 @@ pub struct Payout<'a> {
 }
 
 impl<'a> Payout<'a> {
-    fn new(org_api_key:&str) -> Payout {
+    pub fn new(org_api_key:String) -> Payout<'a> {
         let client = ApiClient::new(org_api_key);
         Payout {
             api_client: client,

@@ -3,7 +3,8 @@ use crate::api_client::ApiClient;
 use reqwest::{Body, StatusCode};
 use serde::{Deserialize, Serialize};
 
-#[derive(serde::Deserialize, Clone)]
+#[derive(serde::Deserialize, Clone, Debug)]
+#[serde(rename_all = "camelCase")]
 pub struct ClientResponse {
     /** client id */
     id: i32,
@@ -58,7 +59,7 @@ pub struct Client<'a> {
 }
 
 impl<'a> Client<'a> {
-    pub fn new(org_api_key: &str) -> Client {
+    pub fn new(org_api_key: String) -> Client<'a> {
         let client = ApiClient::new(org_api_key);
         Client {
             api_client: client,

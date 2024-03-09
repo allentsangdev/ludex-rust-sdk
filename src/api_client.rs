@@ -23,7 +23,7 @@ pub struct ApiClient<'a> {
 }
 
 impl<'a> ApiClient<'a> {
-    pub fn new(api_key: &str) -> ApiClient {
+    pub fn new(api_key: String) -> ApiClient<'a> {
         const LUDEX_API: &str = "https://staging-ludex-protocol-api.herokuapp.com/api/v2";
         // const LUDEX_API: &str = "https://api.ludex.gg/api/v2/";
 
