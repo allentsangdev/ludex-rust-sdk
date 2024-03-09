@@ -1,22 +1,21 @@
-// @todo should not be public, remove pub after testing
-pub mod api_client;
+mod api_client;
 pub mod payout;
 pub mod client;
 pub mod types;
 
-// // let client = api_client::ApiClient::new()
+pub struct OrganizationScoped<'a> {
+    pub client: client::Client<'a>,
+    pub payout: payout::Payout<'a>,
+}
 
-
-// // struct OrganizationScoped {
-// //     client: Client, <-- an api_client with org api key
-// //     payout: Payout, <-- an api_client with org api key
-// // }
-
-// // impl OrganizationScoped {
-// //     fn new(orgainiationApiKey: String) -> OrganizationScoped {
-// //         OrganizationScoped {
-// //             client: "",
-// //             payout: "",
-// //         }
-// //     }
-// // }
+impl<'a> OrganizationScoped<'a> {
+    pub fn new(org_api_key: String) -> OrganizationScoped<'a> {
+        let client = client::Client::new(org_api_key.clone());
+        let payout = payout::Payout::new(org_api_key.clone());
+        
+        OrganizationScoped {
+            client,
+            payout,
+        }
+    }
+}
