@@ -2,6 +2,7 @@ mod api_client;
 pub mod payout;
 pub mod client;
 pub mod types;
+pub mod challenge;
 
 pub struct OrganizationScoped<'a> {
     pub client: client::Client<'a>,
