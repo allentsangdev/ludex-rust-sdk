@@ -21,3 +21,17 @@ async fn get_challenge() {
 
     assert!(response.is_ok());
 }
+
+#[tokio::test]
+async fn get_challenges() {
+    let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
+    let response = challenge_scoped.get_challenges().await;
+
+    // cargo test --test integration_test_challenge -- --nocapture
+    match &response {
+        Ok(r) => println!("{:?}",r),
+        Err(e) => println!("{}", e)
+    }
+
+    assert!(response.is_ok());
+}

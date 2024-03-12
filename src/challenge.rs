@@ -19,6 +19,11 @@ pub struct ChallengeResponse {
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct  ChallengeListResponse {
+    challenges: Vec<ChallengeResponse>
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateChallengeResponse {
     challenge_id: i32,
@@ -222,8 +227,8 @@ impl<'a> Challenge<'a> {
         }
     }
 
-    pub async fn get_challenges(&self) -> Result<Vec<ChallengeResponse>, StatusCode> {
-        let response: Result<Vec<ChallengeResponse>, StatusCode> = self.api_client.issue_get_request(self.base_path).await;
+    pub async fn get_challenges(&self) -> Result<ChallengeListResponse, StatusCode> {
+        let response: Result<ChallengeListResponse, StatusCode> = self.api_client.issue_get_request(self.base_path).await;
         match response {
             Ok(r) => Ok(r),
             Err(e) => Err(e)
