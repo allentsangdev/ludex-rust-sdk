@@ -10,7 +10,7 @@ pub enum Chain {
 }
 
 impl Chain {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         match self {
             Chain::SOLANA => String::from("SOLANA"),
             Chain::AVALANCHE => String::from("AVALANCHE")
@@ -83,7 +83,7 @@ pub enum RedeemType {
 }
 
 impl RedeemType {
-    fn to_string(&self) -> String {
+    pub fn to_string(&self) -> String {
         match self {
             RedeemType::Native => String::from("native"),
             RedeemType::NativeForTokens => String::from("nativeForTokens"),

@@ -8,13 +8,13 @@ use reqwest::StatusCode;
 pub struct ChallengeResponse {
     id: i32,
     limit: i32,
-    payout: PayoutResponse,
+    payout: Option<PayoutResponse>,
     state: String,
     blockchain_address: Option<String>,
     contract_address: String,
     total_pot: Vec<Pot>,
-    players: Players,
-    winning: Option<Vec<WinningResponse>>,
+    players: Vec<Players>,
+    winnings: Option<Vec<WinningResponse>>,
     signatures: Vec<Signature>,
 }
 
@@ -107,6 +107,7 @@ pub struct Pot {
 #[serde(rename_all = "camelCase")]
 pub struct PayoutResponse {
     id: i32,
+    limit: i32,
     entry_fee: String,
     mediator_rake: String,
     provider_rake: String,
@@ -130,7 +131,7 @@ pub struct  WinningResponse {
 pub struct Signature {
     state: String,
     signature: String,
-    time_stamp: String
+    timestamp: String
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -144,7 +145,7 @@ pub struct UiValues {
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct MintResponse {
-    blockchain_response: String,
+    blockchain_address: String,
     decimal_position: i32,
     icon: String,
     ticker: String

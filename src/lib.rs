@@ -22,3 +22,20 @@ impl<'a> OrganizationScoped<'a> {
         }
     }
 }
+
+pub struct ClientScoped<'a> {
+    pub challenge: challenge::Challenge<'a>,
+    pub vault: vault::Vault<'a>,
+}
+
+impl<'a> ClientScoped<'a> {
+    pub fn new(client_api_key: String) -> ClientScoped<'a> {
+        let challenge = challenge::Challenge::new(client_api_key.clone());
+        let vault = vault::Vault::new(client_api_key.clone());
+        
+        ClientScoped {
+            challenge,
+            vault,
+        }
+    }
+}
