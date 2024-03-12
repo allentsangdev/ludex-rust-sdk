@@ -3,6 +3,8 @@ pub mod payout;
 pub mod client;
 pub mod types;
 pub mod challenge;
+pub mod vault;
+
 
 pub struct OrganizationScoped<'a> {
     pub client: client::Client<'a>,
