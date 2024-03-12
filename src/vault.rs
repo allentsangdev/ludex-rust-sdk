@@ -3,9 +3,19 @@ use serde::{Deserialize, Serialize};
 
 use crate::api_client::ApiClient;
 
-enum Chain {
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub enum Chain {
     SOLANA,
     AVALANCHE
+}
+
+impl Chain {
+    fn to_string(&self) -> String {
+        match self {
+            Chain::SOLANA => String::from("SOLANA"),
+            Chain::AVALANCHE => String::from("AVALANCHE")
+        }
+    }
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -63,11 +73,24 @@ pub struct GenerateTransactionRequest {
     receive_mint: Option<String>
 }
 
+#[derive(Deserialize, Serialize, Clone, Debug)]
+
 pub enum RedeemType {
     Native,
     NativeForTokens,
     TokensForNative,
     TokensForTokens
+}
+
+impl RedeemType {
+    fn to_string(&self) -> String {
+        match self {
+            RedeemType::Native => String::from("native"),
+            RedeemType::NativeForTokens => String::from("nativeForTokens"),
+            RedeemType::TokensForNative => String::from("tokensForNative"),
+            RedeemType::TokensForTokens  => String::from("tokensForTokens")
+        }
+    }
 }
 
 pub struct Vault<'a> {
@@ -83,27 +106,34 @@ impl<'a> Vault<'a> {
             base_path: "/vault"
         }
     }
-    pub fn get_vault(chain: Chain) -> Result<VaultResponse, StatusCode> {
-
+    
+    pub async fn get_vault(&self, chain: Chain) -> Result<VaultResponse, StatusCode> {
+        let full_path: String = format!("{}/{}", self.base_path, chain.to_string());
+        let response: Result<VaultResponse, StatusCode> = self.api_client.issue_get_request(&full_path).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 
-    pub fn create_vault(vault: CreateVaultRequest) -> Result<VaultResponse, StatusCode> {
+    pub async fn create_vault(&self, vault: CreateVaultRequest) -> Result<VaultResponse, StatusCode> {
+        
         
     }
 
-    pub fn update_vault(vault: UpdateVaultRequest) -> Result<VaultResponse, StatusCode> {
+    pub async fn update_vault(&self, vault: UpdateVaultRequest) -> Result<VaultResponse, StatusCode> {
         
     }
 
-    pub fn generate_transaction(transaction: GenerateTransactionRequest) -> Result<GenerateTransactionResponse, StatusCode> {
+    pub async fn generate_transaction(&self, transaction: GenerateTransactionRequest) -> Result<GenerateTransactionResponse, StatusCode> {
         
     }
 
-    pub fn get_transactions(chain: Chain) -> Result<Vec<TransactionResponse>, StatusCode> {
+    pub async fn get_transactions(&self, chain: Chain) -> Result<Vec<TransactionResponse>, StatusCode> {
         
     }
 
-    pub fn get_transaction(chain: Chain, transaction_id: &str) -> Result<TransactionResponse, StatusCode> {
+    pub async fn get_transaction(chain: Chain, transaction_id: &str) -> Result<TransactionResponse, StatusCode> {
         
     }
 }
