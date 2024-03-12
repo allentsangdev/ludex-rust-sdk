@@ -117,23 +117,46 @@ impl<'a> Vault<'a> {
     }
 
     pub async fn create_vault(&self, vault: CreateVaultRequest) -> Result<VaultResponse, StatusCode> {
-        
-        
+        let response: Result<VaultResponse, StatusCode> = self.api_client.issue_post_request(self.base_path, vault).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 
     pub async fn update_vault(&self, vault: UpdateVaultRequest) -> Result<VaultResponse, StatusCode> {
-        
+        let full_path: String = format!("{}/{}", self.base_path, vault.chain.to_string());
+        let response: Result<VaultResponse, StatusCode> = self.api_client.issue_post_request(&full_path, vault).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 
     pub async fn generate_transaction(&self, transaction: GenerateTransactionRequest) -> Result<GenerateTransactionResponse, StatusCode> {
-        
+        let full_path: String = format!("{}/{}/{}", self.base_path, transaction.chain.to_string(),"generateTx");
+        let response: Result<GenerateTransactionResponse, StatusCode> = self.api_client.issue_post_request(&full_path, transaction).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 
     pub async fn get_transactions(&self, chain: Chain) -> Result<Vec<TransactionResponse>, StatusCode> {
-        
+        let full_path: String = format!("{}/{}/{}", self.base_path, chain.to_string(), "transactions");
+        let response: Result<Vec<TransactionResponse>, StatusCode> = self.api_client.issue_get_request(&full_path).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 
-    pub async fn get_transaction(chain: Chain, transaction_id: &str) -> Result<TransactionResponse, StatusCode> {
-        
+    pub async fn get_transaction(&self, chain: Chain, transaction_id: &str) -> Result<TransactionResponse, StatusCode> {
+        let full_path: String = format!("{}/{}/{}/{}", self.base_path, chain.to_string(), "transaction", transaction_id);
+        let response: Result<TransactionResponse, StatusCode> = self.api_client.issue_get_request(&full_path).await;
+        match response {
+            Ok(r) => Ok(r),
+            Err(e) => Err(e)
+        }
     }
 }
