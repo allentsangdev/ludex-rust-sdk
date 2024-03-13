@@ -5,7 +5,7 @@
 ### About
 
 This repository contains the Rust SDK for the Ludex Protocol API.
-For usage and documentation head over to [here](https://allentsangdev.github.io/ludex-rust-sdk/ludex_rust_sdk/)
+For usage and documentation head over to [here](https://allentsangdev.github.io/ludex-sdk-rust/ludex_sdk_rust/)
 
 ## Usage
 
