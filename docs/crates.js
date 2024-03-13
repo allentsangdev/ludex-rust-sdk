@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["ludex_rust_sdk"];

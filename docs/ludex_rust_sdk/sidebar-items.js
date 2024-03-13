@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["challenge","client","payout","types","vault"],"struct":["ClientScoped","OrganizationScoped"]};

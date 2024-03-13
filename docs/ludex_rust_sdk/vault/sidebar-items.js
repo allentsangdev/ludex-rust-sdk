@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Chain","RedeemType"],"struct":["CreateVaultRequest","GenerateTransactionRequest","GenerateTransactionResponse","TransactionResponse","UpdateVaultRequest","Vault","VaultResponse"]};
