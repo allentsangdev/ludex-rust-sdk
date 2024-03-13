@@ -1,10 +1,11 @@
 use ludex_rust_sdk::client::Client;
 use ludex_rust_sdk::OrganizationScoped;
 use once_cell::sync::Lazy;
+use std::env;
 
 // Define a lazy static variable to hold the OrganizationScoped instance
 static LUDEX_ORG_SCOPED: Lazy<OrganizationScoped> = Lazy::new(|| {
-    let api_key = "b91326ef-a39d-49c3-bf7d-3a6eec416294".to_string();
+    let api_key = env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
     OrganizationScoped::new(api_key)
 });
 
