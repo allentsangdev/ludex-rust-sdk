@@ -1,5 +1,7 @@
 ## The Rust 🦀 SDK for Ludex API
 
+[![Build](https://github.com/allentsangdev/ludex-rust-sdk/actions/workflows/build.yml/badge.svg)](https://github.com/allentsangdev/ludex-rust-sdk/actions/workflows/build.yml)
+
 ### About
 
 This repository contains the Rust SDK for the Ludex API.
