@@ -90,7 +90,7 @@ impl<'a> ApiClient<'a> {
 
         match &response {
             Ok(r) => {
-                if r.status() != StatusCode::OK {
+                if r.status() != StatusCode::OK && r.status() != StatusCode::ACCEPTED {
                     // returns a Result enum variant Err
                     return Err(r.status());
                 }
@@ -126,7 +126,7 @@ impl<'a> ApiClient<'a> {
 
         match &response {
             Ok(r) => {
-                if r.status() != StatusCode::OK {
+                if r.status() != StatusCode::OK && r.status() != StatusCode::ACCEPTED {
                     // returns a Result enum variant Err
                     return Err(r.status());
                 }
@@ -160,7 +160,7 @@ impl<'a> ApiClient<'a> {
 
         match &response {
             Ok(r) => {
-                if r.status() != StatusCode::OK {
+                if r.status() != StatusCode::OK && r.status() != StatusCode::ACCEPTED {
                     // returns a Result enum variant Err
                     return Err(r.status());
                 }
