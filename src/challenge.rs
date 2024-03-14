@@ -172,32 +172,32 @@ pub struct CreateChallengeRequest {
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct JoinChallengeRequest {
-    challenge_id: i32,
-    player_pubkey: String,
-    gasless: Option<bool>,
-    offerings: Option<Offering>,
+    pub challenge_id: i32,
+    pub player_pubkey: String,
+    // pub gasless: Option<bool>, @dev should create another struct to include optional fields
+    // pub offerings: Option<Offering>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct LeaveChallengeRequest {
-    challenge_id: i32,
-    player_pubkey: String,
-    gasless: Option<bool>,
+    pub challenge_id: i32,
+    pub player_pubkey: String,
+    // pub gasless: Option<bool>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ResolveChallengeRequest {
-    challenge_id: i32,
-    payout: ResolveChallengePayout,
+    pub challenge_id: i32,
+    pub payout: ResolveChallengePayout,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ResolveChallengeWithOneWinnerRequest {
-    challenge_id: i32,
-    winner: String,
+    pub challenge_id: i32,
+    pub winner: String,
 }
 
 pub struct Challenge<'a> {
@@ -251,9 +251,10 @@ impl<'a> Challenge<'a> {
         &self,
         join_challenge: JoinChallengeRequest,
     ) -> Result<JoinChallengeResponse, StatusCode> {
+        let full_path: String = format!("{}/{}/{}", self.base_path, join_challenge.challenge_id, "join");
         let response: Result<JoinChallengeResponse, StatusCode> = self
             .api_client
-            .issue_post_request(self.base_path, join_challenge)
+            .issue_post_request(&full_path, join_challenge)
             .await;
         match response {
             Ok(r) => Ok(r),
@@ -265,9 +266,11 @@ impl<'a> Challenge<'a> {
         &self,
         leave_challenge: LeaveChallengeRequest,
     ) -> Result<LeaveChallengeResponse, StatusCode> {
+        let full_path: String = format!("{}/{}/{}", self.base_path, leave_challenge.challenge_id, "leave");
+
         let response: Result<LeaveChallengeResponse, StatusCode> = self
             .api_client
-            .issue_post_request(self.base_path, leave_challenge)
+            .issue_post_request(&full_path, leave_challenge)
             .await;
         match response {
             Ok(r) => Ok(r),

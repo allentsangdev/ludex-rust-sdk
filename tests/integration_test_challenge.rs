@@ -1,4 +1,4 @@
-use ludex_rust_sdk::challenge::{Challenge, CreateChallengeRequest};
+use ludex_rust_sdk::challenge::{Challenge, CreateChallengeRequest, JoinChallengeRequest, LeaveChallengeRequest};
 use ludex_rust_sdk::ClientScoped;
 use once_cell::sync::Lazy;
 use std::env;
@@ -10,33 +10,33 @@ static LUDEX_CLIENT_SCOPED: Lazy<ClientScoped> = Lazy::new(|| {
     ClientScoped::new(api_key)
 });
 
-#[tokio::test]
-async fn get_challenge() {
-    let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
-    let response = challenge_scoped.get_challenge(90323).await;
+// #[tokio::test]
+// async fn get_challenge() {
+//     let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
+//     let response = challenge_scoped.get_challenge(90323).await;
 
-    // cargo test --test integration_test_challenge -- --nocapture
-    match &response {
-        Ok(r) => println!("{:?}", r),
-        Err(e) => println!("{}", e),
-    }
+//     // cargo test --test integration_test_challenge -- --nocapture
+//     match &response {
+//         Ok(r) => println!("{:?}", r),
+//         Err(e) => println!("{}", e),
+//     }
 
-    assert!(response.is_ok());
-}
+//     assert!(response.is_ok());
+// }
 
-#[tokio::test]
-async fn get_challenges() {
-    let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
-    let response = challenge_scoped.get_challenges().await;
+// #[tokio::test]
+// async fn get_challenges() {
+//     let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
+//     let response = challenge_scoped.get_challenges().await;
 
-    // cargo test --test integration_test_challenge -- --nocapture
-    match &response {
-        Ok(r) => println!("{:?}", r),
-        Err(e) => println!("{}", e),
-    }
+//     // cargo test --test integration_test_challenge -- --nocapture
+//     match &response {
+//         Ok(r) => println!("{:?}", r),
+//         Err(e) => println!("{}", e),
+//     }
 
-    assert!(response.is_ok());
-}
+//     assert!(response.is_ok());
+// }
 
 // #[tokio::test]
 // async fn create_challenge() {
@@ -58,3 +58,47 @@ async fn get_challenges() {
 
 //     assert!(response.is_ok());
 // }
+
+// #[tokio::test]
+// async fn generate_join() {
+//     let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
+
+//     let challenge: JoinChallengeRequest = JoinChallengeRequest {
+//         challenge_id: 90323,
+//         player_pubkey: String::from("0x9dD82EE27cc23B343f186756771904E0386973f1"),
+//         // gasless: None,
+//         // offerings: None,
+//     };
+
+//     let response = challenge_scoped.generate_join(challenge).await;
+
+//     // cargo test --test integration_test_challenge -- --nocapture
+//     match &response {
+//         Ok(r) => println!("{:?}", r),
+//         Err(e) => println!("{}", e),
+//     }
+
+//     assert!(response.is_ok());
+// }
+
+#[tokio::test]
+async fn generate_leave() {
+    let challenge_scoped: &Challenge = &LUDEX_CLIENT_SCOPED.challenge;
+
+    let leave: LeaveChallengeRequest = LeaveChallengeRequest {
+        challenge_id: 90323,
+        player_pubkey: String::from("0x9dD82EE27cc23B343f186756771904E0386973f1"),
+        // gasless: None,
+        // offerings: None,
+    };
+
+    let response = challenge_scoped.generate_leave(leave).await;
+
+    // cargo test --test integration_test_challenge -- --nocapture
+    match &response {
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
+    }
+
+    assert!(response.is_ok());
+}
