@@ -27,7 +27,8 @@ pub struct  ChallengeListResponse {
 #[serde(rename_all = "camelCase")]
 pub struct CreateChallengeResponse {
     challenge_id: i32,
-    creating_at: String,
+    blockchain_address: String,
+    environment: String,
     payout_id: i32,
     limit: i32,
     chain: String,
@@ -166,9 +167,9 @@ pub struct Offering {
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct  CreateChallengeRequest {
-    payout: i32,
-    limit: i32,
-    is_verified: bool
+    pub payout_id: i32,
+    pub limit: i32,
+    pub is_verified: bool
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
