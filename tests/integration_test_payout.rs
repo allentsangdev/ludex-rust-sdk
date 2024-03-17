@@ -5,7 +5,8 @@ use std::env;
 
 // Define a lazy static variable to hold the OrganizationScoped instance
 static LUDEX_ORG_SCOPED: Lazy<OrganizationScoped> = Lazy::new(|| {
-    let api_key = env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
+    let api_key =
+        env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
     OrganizationScoped::new(api_key)
 });
 
@@ -16,8 +17,8 @@ async fn get_payouts() {
 
     // run cargo test -- --nocapture to print during Rust tests
     match &response {
-        Ok(r) => println!("{:?}",r),
-        Err(e) => println!("{}", e)
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
     }
 
     assert!(response.is_ok());
@@ -30,8 +31,8 @@ async fn get_payout() {
 
     // run cargo test -- --nocapture to print during Rust tests
     match &response {
-        Ok(r) => println!("{:?}",r),
-        Err(e) => println!("{}", e)
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
     }
 
     assert!(response.is_ok());

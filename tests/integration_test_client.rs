@@ -1,11 +1,12 @@
-use ludex_rust_sdk::client::Client;
+use ludex_rust_sdk::client::{Client, ClientWallet, CreateClientRequest};
 use ludex_rust_sdk::OrganizationScoped;
 use once_cell::sync::Lazy;
 use std::env;
 
 // Define a lazy static variable to hold the OrganizationScoped instance
 static LUDEX_ORG_SCOPED: Lazy<OrganizationScoped> = Lazy::new(|| {
-    let api_key = env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
+    let api_key =
+        env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
     OrganizationScoped::new(api_key)
 });
 
@@ -37,24 +38,24 @@ async fn get_clients() {
     assert!(response.is_ok());
 }
 
-// #[tokio::test]
-// async fn create_client() {
+#[tokio::test]
+#[ignore]
+async fn create_client() {
+    let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
+    let client_request: CreateClientRequest = CreateClientRequest {
+        name: String::from("Test 3"),
+    };
 
-//     let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
-//     let client_request: CreateClientRequest = CreateClientRequest {
-//         name: String::from("Test 3")
-//     };
+    let response = client_scoped.create_client(client_request).await;
 
-//     let response = client_scoped.create_client(client_request).await;
+    // run cargo test -- --nocapture to print during Rust tests
+    match &response {
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
+    }
 
-//     // run cargo test -- --nocapture to print during Rust tests
-//     match &response {
-//         Ok(r) => println!("{:?}",r),
-//         Err(e) => println!("{}", e)
-//     }
-
-//     assert!(response.is_ok());
-// }
+    assert!(response.is_ok());
+}
 
 #[tokio::test]
 async fn get_open_challenge_count() {
@@ -71,38 +72,37 @@ async fn get_open_challenge_count() {
     assert!(response.is_ok());
 }
 
-// #[tokio::test]
-// async fn update_client_wallet() {
+#[tokio::test]
+#[ignore]
+async fn update_client_wallet() {
+    let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
+    let wallet: ClientWallet = ClientWallet {
+        chain: String::from("SOLANA"),
+        address: String::from("6ofyGkHGZzFvLqeYuLoV5MVnNGT9yNqkgicCfZpAYGRa"),
+    };
 
-//     let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
-//     let wallet: ClientWallet = ClientWallet {
-//         chain: String::from("SOLANA"),
-//         address: String::from("6ofyGkHGZzFvLqeYuLoV5MVnNGT9yNqkgicCfZpAYGRa")
-//     };
+    let response = client_scoped.update_client_wallet(1169, wallet).await;
 
-//     let response = client_scoped.update_client_wallet(1169, wallet).await;
+    // run cargo test -- --nocapture to print during Rust tests
+    match &response {
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
+    }
 
-//     // run cargo test -- --nocapture to print during Rust tests
-//     match &response {
-//         Ok(r) => println!("{:?}",r),
-//         Err(e) => println!("{}", e)
-//     }
+    assert!(response.is_ok());
+}
 
-//     assert!(response.is_ok());
-// }
+#[tokio::test]
+#[ignore]
+async fn delete_client() {
+    let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
+    let response = client_scoped.delete_client(1169).await;
 
-// #[tokio::test]
-// async fn delete_client() {
+    // run cargo test -- --nocapture to print during Rust tests
+    match &response {
+        Ok(r) => println!("{:?}", r),
+        Err(e) => println!("{}", e),
+    }
 
-//     let client_scoped: &Client = &LUDEX_ORG_SCOPED.client;
-
-//     let response = client_scoped.delete_client(1169).await;
-
-//     // run cargo test -- --nocapture to print during Rust tests
-//     match &response {
-//         Ok(r) => println!("{:?}",r),
-//         Err(e) => println!("{}", e)
-//     }
-
-//     assert!(response.is_ok());
-// }
+    assert!(response.is_ok());
+}

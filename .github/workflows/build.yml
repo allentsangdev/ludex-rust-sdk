@@ -2,19 +2,19 @@ name: Build
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: cargo build --verbose
-    # - name: Run tests
-    #   run: cargo test --verbose
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        # run: cargo test --verbose
+        run: LUDEX_CLIENT_API_KEY=${{ secrets.COINFLIP_CLIENT_API_KEY }} LUDEX_ORG_API_KEY=${{ secrets.LUDEX_ORG_API_KEY }} cargo test -- --nocapture
