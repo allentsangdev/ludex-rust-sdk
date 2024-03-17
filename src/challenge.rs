@@ -6,84 +6,84 @@ use serde::{Deserialize, Serialize};
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ChallengeResponse {
-    id: i32,
-    limit: i32,
-    payout: Option<PayoutResponse>,
-    state: String,
-    blockchain_address: Option<String>,
-    contract_address: String,
-    total_pot: Vec<Pot>,
-    players: Vec<String>, // @todo look for a way to inculde nft players
-    winnings: Option<Vec<WinningResponse>>,
-    signatures: Vec<Signature>,
+    pub id: i32,
+    pub limit: i32,
+    pub payout: Option<PayoutResponse>,
+    pub state: String,
+    pub blockchain_address: Option<String>,
+    pub contract_address: String,
+    pub total_pot: Vec<Pot>,
+    pub players: Vec<String>, // @todo look for a way to inculde nft players
+    pub winnings: Option<Vec<WinningResponse>>,
+    pub signatures: Vec<Signature>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct ChallengeListResponse {
-    challenges: Vec<ChallengeResponse>,
+    pub challenges: Vec<ChallengeResponse>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateChallengeResponse {
-    challenge_id: i32,
-    blockchain_address: String,
-    environment: String,
-    payout_id: i32,
-    limit: i32,
-    chain: String,
+    pub challenge_id: i32,
+    pub blockchain_address: String,
+    pub environment: String,
+    pub payout_id: i32,
+    pub limit: i32,
+    pub chain: String,
     #[serde(rename = "type")]
-    challenge_type: String,
+    pub challenge_type: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct LockChallengeResponse {
-    challenge_id: i32,
-    locking_at: String,
+    pub challenge_id: i32,
+    pub locking_at: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct CancelChallengeResponse {
-    challenge_id: i32,
-    canceling_at: String,
+    pub challenge_id: i32,
+    pub canceling_at: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct JoinChallengeResponse {
-    transaction: String,
+    pub transaction: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct LeaveChallengeResponse {
-    transaction: String,
+    pub transaction: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct ResolveChallengeResponse {
-    challenge_id: i32,
-    payout: ResolveChallengePayout,
-    resolving_at: String,
+    pub challenge_id: i32,
+    pub payout: FungibleTokenPayout,
+    pub resolving_at: String,
 }
 
-#[derive(Deserialize, Serialize, Clone, Debug)]
-enum ResolveChallengePayout {
-    FungibleTokenPayout(Vec<FungibleTokenPayout>),
-    NonFungibleTokenPayout(Vec<NonFungibleTokenPayout>),
-}
+// #[derive(Deserialize, Serialize, Clone, Debug)]
+// enum ResolveChallengePayout {
+//     FungibleTokenPayout(Vec<FungibleTokenPayout>),
+//     NonFungibleTokenPayout(Vec<NonFungibleTokenPayout>),
+// }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct FungibleTokenPayout {
-    amount: String,
-    to: String,
+    pub amount: String,
+    pub to: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct NonFungibleTokenPayout {
-    offering: String,
-    to: String,
+    pub offering: String,
+    pub to: String,
 }
 
 // #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -94,70 +94,70 @@ pub struct NonFungibleTokenPayout {
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct NftPlayer {
-    player: String,
-    offerings: Vec<String>,
+    pub player: String,
+    pub offerings: Vec<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Pot {
-    mint: String,
-    amount: String,
-    ui_amount: String,
+    pub mint: String,
+    pub amount: String,
+    pub ui_amount: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct PayoutResponse {
-    id: i32,
-    limit: i32,
-    entry_fee: String,
-    mediator_rake: String,
-    provider_rake: String,
-    chain: String,
+    pub id: i32,
+    pub limit: i32,
+    pub entry_fee: String,
+    pub mediator_rake: String,
+    pub provider_rake: String,
+    pub chain: String,
     #[serde(rename = "type")]
-    payout_type: String,
-    mint: MintResponse,
-    ui_values: Option<UiValues>,
+    pub payout_type: String,
+    pub mint: MintResponse,
+    pub ui_values: Option<UiValues>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct WinningResponse {
-    to: String,
-    amount: String,
-    ui_amount: String,
+    pub to: String,
+    pub amount: String,
+    pub ui_amount: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct Signature {
-    state: String,
-    signature: String,
-    timestamp: String,
+    pub state: String,
+    pub signature: String,
+    pub timestamp: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct UiValues {
-    entry_fee: String,
-    mediator_rake: String,
-    provider_rake: String,
+    pub entry_fee: String,
+    pub mediator_rake: String,
+    pub provider_rake: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct MintResponse {
-    blockchain_address: String,
-    decimal_position: i32,
-    icon: String,
-    ticker: String,
+    pub blockchain_address: String,
+    pub decimal_position: i32,
+    pub icon: String,
+    pub ticker: String,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Offering {
-    mint: String,
-    amount: i32,
+    pub mint: String,
+    pub amount: i32,
 }
 
 // ----------------------------------------- Request Types  ----------------------------------------- //
@@ -190,7 +190,8 @@ pub struct LeaveChallengeRequest {
 #[serde(rename_all = "camelCase")]
 pub struct ResolveChallengeRequest {
     pub challenge_id: i32,
-    pub payout: ResolveChallengePayout,
+    // @dev need to handle nft payout type as well
+    pub payout: Vec<FungibleTokenPayout>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
@@ -198,6 +199,11 @@ pub struct ResolveChallengeRequest {
 pub struct ResolveChallengeWithOneWinnerRequest {
     pub challenge_id: i32,
     pub winner: String,
+}
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct EmptyRequestBody<'a> {
+    pub placeholder: &'a str,
 }
 
 pub struct Challenge<'a> {
@@ -283,8 +289,13 @@ impl<'a> Challenge<'a> {
         challenge_id: i32,
     ) -> Result<LockChallengeResponse, StatusCode> {
         let full_path: String = format!("{}/{}/{}", self.base_path, challenge_id, "lock");
+        // @dev look for ways to pass in empty body without using EmptyRequestBody
+        // @dev reqwest client.json() now requires a empty struct
+        let body: EmptyRequestBody =  EmptyRequestBody {
+            placeholder: ""
+        };
         let response: Result<LockChallengeResponse, StatusCode> =
-            self.api_client.issue_patch_request(&full_path, "").await;
+            self.api_client.issue_patch_request(&full_path, body).await;
         match response {
             Ok(r) => Ok(r),
             Err(e) => Err(e),
@@ -296,8 +307,14 @@ impl<'a> Challenge<'a> {
         challenge_id: i32,
     ) -> Result<CancelChallengeResponse, StatusCode> {
         let full_path: String = format!("{}/{}/{}", self.base_path, challenge_id, "cancel");
+        // @dev look for ways to pass in empty body without using EmptyRequestBody
+        // @dev reqwest client.json() now requires a empty struct
+        let body: EmptyRequestBody =  EmptyRequestBody {
+            placeholder: ""
+        };
+        
         let response: Result<CancelChallengeResponse, StatusCode> =
-            self.api_client.issue_patch_request(&full_path, "").await;
+            self.api_client.issue_patch_request(&full_path, body).await;
         match response {
             Ok(r) => Ok(r),
             Err(e) => Err(e),
