@@ -1,6 +1,6 @@
 ## The Rust 🦀 SDK for Ludex API
 
-[![Build](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/build.yml/badge.svg)](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/build.yml) [![pages-build-deployment](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/pages/pages-build-deployment)
+[![Build](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/build.yml/badge.svg)](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/build.yml) [![Test](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/test.yml/badge.svg)](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/test.yml) [![pages-build-deployment](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/allentsangdev/ludex-sdk-rust/actions/workflows/pages/pages-build-deployment)
 
 ### About
 
