@@ -7,7 +7,7 @@ use std::env;
 static LUDEX_ORG_SCOPED: Lazy<OrganizationScoped> = Lazy::new(|| {
     let api_key =
         env::var("LUDEX_ORG_API_KEY").expect("LUDEX_ORG_API_KEY environment variable not set");
-    OrganizationScoped::new(api_key)
+    OrganizationScoped::new(&api_key)
 });
 
 #[tokio::test]

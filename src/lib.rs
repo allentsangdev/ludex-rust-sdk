@@ -41,10 +41,10 @@
 //!
 //! fn main() {
 //!     // Initialize an OrganizationScoped instance with an organization API key
-//!     let org_scoped = OrganizationScoped::new("ORG_API_KEY".to_string());
+//!     let org_scoped = OrganizationScoped::new("ORG_API_KEY");
 //!
 //!     // Initialize a ClientScoped instance with a client API key
-//!     let client_scoped = ClientScoped::new("CLIENT_API_KEY".to_string());
+//!     let client_scoped = ClientScoped::new("CLIENT_API_KEY");
 //! }
 //! ```
 
@@ -56,15 +56,15 @@ pub mod challenge;
 pub mod vault;
 pub mod types;
 
-pub struct OrganizationScoped<'a> {
-    pub client: client::Client<'a>,
-    pub payout: payout::Payout<'a>,
+pub struct OrganizationScoped {
+    pub client: client::Client,
+    pub payout: payout::Payout,
 }
 
-impl<'a> OrganizationScoped<'a> {
-    pub fn new(org_api_key: String) -> OrganizationScoped<'a> {
-        let client = client::Client::new(org_api_key.clone());
-        let payout = payout::Payout::new(org_api_key.clone());
+impl OrganizationScoped {
+    pub fn new(org_api_key: &str) -> OrganizationScoped {
+        let client = client::Client::new(org_api_key);
+        let payout = payout::Payout::new(org_api_key);
         
         OrganizationScoped {
             client,
@@ -73,15 +73,15 @@ impl<'a> OrganizationScoped<'a> {
     }
 }
 
-pub struct ClientScoped<'a> {
-    pub challenge: challenge::Challenge<'a>,
-    pub vault: vault::Vault<'a>,
+pub struct ClientScoped {
+    pub challenge: challenge::Challenge,
+    pub vault: vault::Vault,
 }
 
-impl<'a> ClientScoped<'a> {
-    pub fn new(client_api_key: String) -> ClientScoped<'a> {
-        let challenge = challenge::Challenge::new(client_api_key.clone());
-        let vault = vault::Vault::new(client_api_key.clone());
+impl ClientScoped {
+    pub fn new(client_api_key: &str) -> ClientScoped {
+        let challenge = challenge::Challenge::new(client_api_key);
+        let vault = vault::Vault::new(client_api_key);
         
         ClientScoped {
             challenge,

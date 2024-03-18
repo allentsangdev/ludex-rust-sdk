@@ -7,7 +7,7 @@ use std::env;
 static LUDEX_CLIENT_SCOPED: Lazy<ClientScoped> = Lazy::new(|| {
     let api_key = env::var("LUDEX_CLIENT_API_KEY")
         .expect("LUDEX_CLIENT_API_KEY environment variable not set");
-    ClientScoped::new(api_key)
+    ClientScoped::new(&api_key)
 });
 
 #[tokio::test]

@@ -34,22 +34,21 @@ pub struct ClientWallet {
     pub address: String,
 }
 
-pub struct Client<'a> {
-    api_client: ApiClient<'a>,
-    base_path: &'a str,
+pub struct Client {
+    api_client: ApiClient
 }
 
-impl<'a> Client<'a> {
-    pub fn new(org_api_key: String) -> Client<'a> {
-        let client = ApiClient::new(org_api_key);
+impl Client {
+    pub fn new(org_api_key: &str) -> Client {
+        let sub_path: &str = "client";
+        let client = ApiClient::new(org_api_key, &sub_path);
         Client {
             api_client: client,
-            base_path: "/client",
         }
     }
 
     pub async fn get_client(&self, client_id: i32) -> Result<ClientResponse, StatusCode> {
-        let full_url: String = format!("{}/{}", self.base_path, client_id);
+        let full_url: String = format!("{}/{}", self.api_client.base_path, client_id);
         let response: Result<ClientResponse, StatusCode> =
             self.api_client.issue_get_request(&full_url).await;
 
@@ -64,7 +63,7 @@ impl<'a> Client<'a> {
 
     pub async fn get_clients(&self) -> Result<Vec<ClientResponse>, StatusCode> {
         let response: Result<Vec<ClientResponse>, StatusCode> =
-            self.api_client.issue_get_request(&self.base_path).await;
+            self.api_client.issue_get_request(&self.api_client.base_path).await;
 
         match response {
             Ok(r) => Ok(r),
@@ -81,7 +80,7 @@ impl<'a> Client<'a> {
     ) -> Result<ClientResponse, StatusCode> {
         let response: Result<ClientResponse, StatusCode> = self
             .api_client
-            .issue_post_request(&self.base_path, client)
+            .issue_post_request(&self.api_client.base_path, client)
             .await;
 
         match response {
@@ -99,7 +98,7 @@ impl<'a> Client<'a> {
     ) -> Result<OpenChallengeCountResponse, StatusCode> {
         let full_path: String = format!(
             "{}/{}{}",
-            self.base_path, client_id, "/open-challenge-count"
+            self.api_client.base_path, client_id, "/open-challenge-count"
         );
 
         let response: Result<OpenChallengeCountResponse, StatusCode> =
@@ -119,7 +118,7 @@ impl<'a> Client<'a> {
         client_id: i32,
         wallet: ClientWallet,
     ) -> Result<ClientResponse, StatusCode> {
-        let full_path: String = format!("{}/{}{}", self.base_path, client_id, "/wallet");
+        let full_path: String = format!("{}/{}{}", self.api_client.base_path, client_id, "/wallet");
 
         let response: Result<ClientResponse, StatusCode> = self
             .api_client
@@ -136,7 +135,7 @@ impl<'a> Client<'a> {
     }
 
     pub async fn delete_client(&self, client_id: i32) -> Result<DeleteClientResponse, StatusCode> {
-        let full_path: String = format!("{}/{}", self.base_path, client_id);
+        let full_path: String = format!("{}/{}", self.api_client.base_path, client_id);
 
         let response: Result<DeleteClientResponse, StatusCode> =
             self.api_client.issue_delete_request(&full_path).await;

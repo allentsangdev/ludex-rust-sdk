@@ -17,14 +17,14 @@ use reqwest::{
 };
 use serde::{de::DeserializeOwned, Serialize};
 
-pub struct ApiClient<'a> {
+pub struct ApiClient {
     http_client: Client,
-    base_path: &'a str,
+    pub base_path: String,
 }
 
-impl<'a> ApiClient<'a> {
-    pub fn new(api_key: String) -> ApiClient<'a> {
-        const LUDEX_API: &str = "https://staging-ludex-protocol-api.herokuapp.com/api/v2";
+impl ApiClient {
+    pub fn new(api_key: &str, sub_path: &str) -> ApiClient {
+        const LUDEX_API: &str = "https://staging-ludex-protocol-api.herokuapp.com/api/v2/";
         // const LUDEX_API: &str = "https://api.ludex.gg/api/v2/";
 
         let mut headers = HeaderMap::new();
@@ -39,7 +39,7 @@ impl<'a> ApiClient<'a> {
 
         ApiClient {
             http_client: http_auth_client,
-            base_path: LUDEX_API,
+            base_path: format!("{}{}", LUDEX_API, sub_path),
         }
     }
 
@@ -48,9 +48,7 @@ impl<'a> ApiClient<'a> {
         // to make sure the response from the api call is a JSON deserializable and can be fully owned
         T: DeserializeOwned,
     {
-        let full_url: String = format!("{}{}", &self.base_path, &url);
-
-        let response: Result<Response, Error> = self.http_client.get(&full_url).send().await;
+        let response: Result<Response, Error> = self.http_client.get(url).send().await;
 
         match &response {
             Ok(r) => {
@@ -83,10 +81,7 @@ impl<'a> ApiClient<'a> {
         T: DeserializeOwned,
         U: Serialize,
     {
-        let full_url: String = format!("{}{}", &self.base_path, &url);
-
-        let response: Result<Response, Error> =
-            self.http_client.post(&full_url).json(&body).send().await;
+        let response: Result<Response, Error> = self.http_client.post(url).json(&body).send().await;
 
         match &response {
             Ok(r) => {
@@ -119,10 +114,8 @@ impl<'a> ApiClient<'a> {
         T: DeserializeOwned,
         U: Serialize,
     {
-        let full_url: String = format!("{}{}", &self.base_path, &url);
-
         let response: Result<Response, Error> =
-            self.http_client.patch(&full_url).json(&body).send().await;
+            self.http_client.patch(url).json(&body).send().await;
 
         match &response {
             Ok(r) => {
@@ -154,9 +147,7 @@ impl<'a> ApiClient<'a> {
         // to make sure the response from the api call is a JSON deserializable and can be fully owned
         T: DeserializeOwned,
     {
-        let full_url: String = format!("{}{}", &self.base_path, &url);
-
-        let response: Result<Response, Error> = self.http_client.delete(&full_url).send().await;
+        let response: Result<Response, Error> = self.http_client.delete(url).send().await;
 
         match &response {
             Ok(r) => {
@@ -182,40 +173,4 @@ impl<'a> ApiClient<'a> {
             }
         }
     }
-
-    // pub async fn post<T,U>(&self, url: &str, json_body: U) -> Result<T, StatusCode>
-    // where
-    //     // to make sure the response from the api call is a JSON deserializable and can be fully owned
-    //     T: DeserializeOwned,
-    //     U: Serialize
-    // {
-    //     let full_url: String = format!("{}{}", &self.base_path, &url);
-
-    //     let response: Result<Response, Error> =
-    //         self.http_client.post(&full_url).json(&json_body).send().await;
-
-    //     match &response {
-    //         Ok(r) => {
-    //             if r.status() != StatusCode::OK {
-    //                 // returns a Result enum variant Err
-    //                 return Err(r.status());
-    //             }
-    //         }
-    //         Err(e) => {
-    //             println!("{}", e.to_string());
-    //             return Err(e.status().unwrap());
-    //         }
-    //     }
-
-    //     // Parse the response body as Json
-    //     let content: Result<T, Error> = response.unwrap().json::<T>().await;
-
-    //     match content {
-    //         Ok(response) => Ok(response),
-    //         Err(e) => {
-    //             println!("{}", e.to_string());
-    //             Err(e.status().unwrap())
-    //         }
-    //     }
-    // }
 }

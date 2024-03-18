@@ -206,22 +206,19 @@ pub struct EmptyRequestBody<'a> {
     pub placeholder: &'a str,
 }
 
-pub struct Challenge<'a> {
-    api_client: ApiClient<'a>,
-    base_path: &'a str,
+pub struct Challenge {
+    api_client: ApiClient,
 }
 
-impl<'a> Challenge<'a> {
-    pub fn new(client_api_key: String) -> Challenge<'a> {
-        let api_client: ApiClient = ApiClient::new(client_api_key);
-        Challenge {
-            api_client,
-            base_path: "/challenge",
-        }
+impl Challenge {
+    pub fn new(client_api_key: &str) -> Challenge {
+        let sub_path: &str = "challenge";
+        let api_client: ApiClient = ApiClient::new(client_api_key, &sub_path);
+        Challenge { api_client }
     }
 
     pub async fn get_challenge(&self, challenge_id: i32) -> Result<ChallengeResponse, StatusCode> {
-        let full_path: String = format!("{}/{}", self.base_path, challenge_id);
+        let full_path: String = format!("{}/{}", self.api_client.base_path, challenge_id);
         let response: Result<ChallengeResponse, StatusCode> =
             self.api_client.issue_get_request(&full_path).await;
         match response {
@@ -232,7 +229,7 @@ impl<'a> Challenge<'a> {
 
     pub async fn get_challenges(&self) -> Result<ChallengeListResponse, StatusCode> {
         let response: Result<ChallengeListResponse, StatusCode> =
-            self.api_client.issue_get_request(self.base_path).await;
+            self.api_client.issue_get_request(&self.api_client.base_path).await;
         match response {
             Ok(r) => Ok(r),
             Err(e) => Err(e),
@@ -245,7 +242,7 @@ impl<'a> Challenge<'a> {
     ) -> Result<CreateChallengeResponse, StatusCode> {
         let response: Result<CreateChallengeResponse, StatusCode> = self
             .api_client
-            .issue_post_request(self.base_path, challenge)
+            .issue_post_request(&self.api_client.base_path, challenge)
             .await;
         match response {
             Ok(r) => Ok(r),
@@ -257,7 +254,10 @@ impl<'a> Challenge<'a> {
         &self,
         join_challenge: JoinChallengeRequest,
     ) -> Result<JoinChallengeResponse, StatusCode> {
-        let full_path: String = format!("{}/{}/{}", self.base_path, join_challenge.challenge_id, "join");
+        let full_path: String = format!(
+            "{}/{}/{}",
+            self.api_client.base_path, join_challenge.challenge_id, "join"
+        );
         let response: Result<JoinChallengeResponse, StatusCode> = self
             .api_client
             .issue_post_request(&full_path, join_challenge)
@@ -272,7 +272,10 @@ impl<'a> Challenge<'a> {
         &self,
         leave_challenge: LeaveChallengeRequest,
     ) -> Result<LeaveChallengeResponse, StatusCode> {
-        let full_path: String = format!("{}/{}/{}", self.base_path, leave_challenge.challenge_id, "leave");
+        let full_path: String = format!(
+            "{}/{}/{}",
+            self.api_client.base_path, leave_challenge.challenge_id, "leave"
+        );
 
         let response: Result<LeaveChallengeResponse, StatusCode> = self
             .api_client
@@ -288,12 +291,10 @@ impl<'a> Challenge<'a> {
         &self,
         challenge_id: i32,
     ) -> Result<LockChallengeResponse, StatusCode> {
-        let full_path: String = format!("{}/{}/{}", self.base_path, challenge_id, "lock");
+        let full_path: String = format!("{}/{}/{}", self.api_client.base_path, challenge_id, "lock");
         // @dev look for ways to pass in empty body without using EmptyRequestBody
         // @dev reqwest client.json() now requires a empty struct
-        let body: EmptyRequestBody =  EmptyRequestBody {
-            placeholder: ""
-        };
+        let body: EmptyRequestBody = EmptyRequestBody { placeholder: "" };
         let response: Result<LockChallengeResponse, StatusCode> =
             self.api_client.issue_patch_request(&full_path, body).await;
         match response {
@@ -306,13 +307,11 @@ impl<'a> Challenge<'a> {
         &self,
         challenge_id: i32,
     ) -> Result<CancelChallengeResponse, StatusCode> {
-        let full_path: String = format!("{}/{}/{}", self.base_path, challenge_id, "cancel");
+        let full_path: String = format!("{}/{}/{}", self.api_client.base_path, challenge_id, "cancel");
         // @dev look for ways to pass in empty body without using EmptyRequestBody
         // @dev reqwest client.json() now requires a empty struct
-        let body: EmptyRequestBody =  EmptyRequestBody {
-            placeholder: ""
-        };
-        
+        let body: EmptyRequestBody = EmptyRequestBody { placeholder: "" };
+
         let response: Result<CancelChallengeResponse, StatusCode> =
             self.api_client.issue_patch_request(&full_path, body).await;
         match response {
@@ -327,7 +326,7 @@ impl<'a> Challenge<'a> {
     ) -> Result<ResolveChallengeResponse, StatusCode> {
         let full_path: String = format!(
             "{}/{}/{}",
-            self.base_path, resolve_challenge.challenge_id, "resolve"
+            self.api_client.base_path, resolve_challenge.challenge_id, "resolve"
         );
         let response: Result<ResolveChallengeResponse, StatusCode> = self
             .api_client
